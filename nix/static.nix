@@ -24,13 +24,13 @@ let
   dds = x: x.overrideAttrs (o: { dontDisableStatic = true; });
   nixpkgs-fixed = builtins.fetchTarball
     "https://github.com/serokell/nixpkgs/archive/ocaml-cross-fixes.tar.gz";
-  pkgsNative = import nixpkgs-fixed { };
+  pkgsNative = (import nixpkgs-fixed { }).forceSystem "x86_64-linux" "x86_64";
   pkgs = import nixpkgs-fixed {
     crossSystem = pkgsNative.lib.systems.examples.musl64;
     overlays = [
       (self: super: { ocaml = fixOcaml super.ocaml; })
       (self: super: {
-        musl-bin = super.callPackage ./musl-bin.nix { };
+        musl-bin = pkgsNative.callPackage ./musl-bin.nix { };
         getent = self.musl-bin;
         getconf = self.musl-bin;
         libev = dds super.libev;
@@ -82,4 +82,4 @@ let
       })
     ];
   };
-in import ./default.nix { inherit pkgs; }
+in import ./default.nix { pkgs = pkgs.forceSystem "x86_64-linux" "x86_64"; }
