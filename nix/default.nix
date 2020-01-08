@@ -229,6 +229,28 @@ let
           };
           propagatedBuildInputs = [ fmt astring ];
         }) { };
+    ezjsonm = super.ezjsonm.overrideDerivation (o: rec {
+      version = "1.1.0";
+      name = "ezjsonm";
+      src = pkgs.fetchFromGitHub {
+        owner = "mirage";
+        repo = name;
+        rev = "v${version}";
+        sha256 = "064j9pzy01p3dv947khqyn7fkjbs3jmrqsg8limb4abnlaqxxs2s";
+      };
+      propagatedBuildInputs = o.propagatedBuildInputs ++ [ self.stdlib-shims ];
+    });
+    fmt = super.fmt.overrideDerivation (o: rec {
+      version = "0.8.8";
+      name = "fmt";
+      src = pkgs.fetchFromGitHub {
+        owner = "dbuenzli";
+        repo = name;
+        rev = "v${version}";
+        sha256 = "06700rk442hn2yss04aqv2pr3c0l88zvv6sbwq0hg0fyyacmapl7";
+      };
+      propagatedBuildInputs = o.propagatedBuildInputs ++ [ self.stdlib-shims self.seq ];
+    });
 
     tezos = self.callPackage ({ stdenv, fetchgit, buildDunePackage, base
       , bigstring, cohttp-lwt, cohttp-lwt-unix, cstruct, ezjsonm, hex, ipaddr
@@ -244,7 +266,7 @@ let
 
         patches = [ branchInfo.patchFile ];
         src = fetchgit {
-          url = "https://gitlab.com/tezos/tezos.git/";
+          url = branchInfo.url;
           rev = branchInfo.rev;
           sha256 = branchInfo.sha256;
         };
