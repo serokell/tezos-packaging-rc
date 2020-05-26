@@ -19,3 +19,4 @@ for b in "${binaries[@]}"; do
     docker cp "$container_id:/tezos/$b" "$b"
 done
 docker rm -v "$container_id"
+docker image rm alpine-tezos
