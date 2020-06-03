@@ -36,9 +36,9 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "tezos": {
-        "ref": "tomas/client-keys-missing-scheme-error-handling",
-        "repo": "https://gitlab.com/cryptiumlabs/tezos",
-        "rev": "da7615e4d0d484853ab20abc29ff9c259bc9f301",
+        "ref": "multisig-failure",
+        "repo": "https://gitlab.com/nomadic-labs/tezos",
+        "rev": "3e86a214863c918931f87dfd9ab4ea128a3d0706",
         "type": "git"
     }
 }
