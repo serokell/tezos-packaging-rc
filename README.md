@@ -88,17 +88,17 @@ nix build -f. binaries.tezos-client
 
 to build the `tezos-client` binary.
 
-#### Nix-less way
+#### Using docker
 
 As an alternative one can build tezos binaries without nix using docker.
 
-[`docker-static-build.sh`](nix-less/docker-static-build.sh) will build these binaries
+[`docker-static-build.sh`](docker/docker-static-build.sh) will build these binaries
 using custom alpine image. In order to do that run the following commands:
 ```sh
-cd nix-less
+cd docker
 ./docker-static-build.sh
 ```
-After that, `nix-less` directory will contain built static binaries.
+After that, `docker` directory will contain built static binaries.
 
 <a name="deb"></a>
 ### Ubuntu `.deb` packages
