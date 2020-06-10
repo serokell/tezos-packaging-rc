@@ -32,7 +32,7 @@ steps:
  - commands:
    - cd docker
    - nix run nixpkgs.docker -c ./docker-static-build.sh
-   - cd .. && ./scripts/test-binaries.sh
+   - cd .. && ./scripts/test-binaries.sh docker
    artifact_paths:
      - ./docker/tezos-*
    label: build using docker and test binaries
