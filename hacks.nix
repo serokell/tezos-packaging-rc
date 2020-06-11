@@ -24,6 +24,16 @@ with oself; {
   conf-libev = self.libev;
   conf-hidapi = self.hidapi;
   conf-pkg-config = self.pkg-config;
+  conf-rust = null;
+
+  ctypes-foreign = null;
+
+  hacl-star-raw = osuper.hacl-star-raw.overrideAttrs (oa: {
+    preBuild = "patchShebangs .";
+    buildInputs = oa.buildInputs ++ [ self.which ];
+    outputs = [ "out" ];
+    installPhase = "cd raw; mkdir -p $OCAMLFIND_DESTDIR; make install-hacl-star-raw";
+  });
 
   # FIXME X11 in nixpkgs musl
   lablgtk = null;
