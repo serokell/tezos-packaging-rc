@@ -6,7 +6,7 @@ FROM alpine:3.11
 RUN apk update
 RUN apk --no-cache --virtual add rsync git m4 build-base patch unzip \
   bubblewrap wget pkgconfig gmp-dev libev-dev hidapi-dev eudev-dev perl opam libusb-dev bash \
-  autoconf automake libtool linux-headers libffi
+  autoconf automake libtool linux-headers libffi-dev cargo
 RUN git clone --single-branch --branch v1.0.23 https://github.com/libusb/libusb.git --depth 1
 RUN cd libusb && autoreconf -fvi && ./configure && make && make install
 RUN git clone --single-branch --branch hidapi-0.9.0 https://github.com/libusb/hidapi.git --depth 1
