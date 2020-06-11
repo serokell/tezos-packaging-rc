@@ -36,9 +36,9 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "tezos": {
-        "ref": "multisig-failure",
-        "repo": "https://gitlab.com/nomadic-labs/tezos",
-        "rev": "3e86a214863c918931f87dfd9ab4ea128a3d0706",
+        "ref": "master",
+        "repo": "https://gitlab.com/tezos/tezos",
+        "rev": "51884ce8407f0386b100e8822796f3f76518bd0f",
         "type": "git"
     }
 }
