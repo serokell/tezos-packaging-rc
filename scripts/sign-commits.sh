@@ -18,7 +18,7 @@ while : ; do
     git reset --hard origin/"$BUILDKITE_BRANCH"
     echo "$BUILDKITE_BRANCH $BUILDKITE_PIPELINE_DEFAULT_BRANCH"
     git cherry -v "origin/$BUILDKITE_PIPELINE_DEFAULT_BRANCH" "$BUILDKITE_BRANCH"
-    git rebase --exec 'git commit --amend --no-edit -n' "origin/$BUILDKITE_PIPELINE_DEFAULT_BRANCH" || git rebase --abort; exit 1
+    git rebase --exec 'git commit --amend --no-edit -n' "origin/$BUILDKITE_PIPELINE_DEFAULT_BRANCH" || (git rebase --abort; exit 1)
     # This should fail in case we're trying to overwrite some new commits
     ! git push --force-with-lease || break
 done
