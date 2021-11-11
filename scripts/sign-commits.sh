@@ -10,6 +10,7 @@ set -e
 git fetch --all
 # We call this script only after a commit was pushed to the given branch, so it's safe to switch to it
 git switch "$BUILDKITE_BRANCH"
+gpg --list-keys
 
 # Try to sign and push signed commits, retry in case of collision
 while : ; do
@@ -17,7 +18,7 @@ while : ; do
     git reset --hard origin/"$BUILDKITE_BRANCH"
     echo "$BUILDKITE_BRANCH $BUILDKITE_PIPELINE_DEFAULT_BRANCH"
     git cherry -v "origin/$BUILDKITE_PIPELINE_DEFAULT_BRANCH" "$BUILDKITE_BRANCH"
-    git rebase --exec 'git commit --amend --no-edit -n -S' "origin/$BUILDKITE_PIPELINE_DEFAULT_BRANCH" || git rebase --abort; exit 1
+    git rebase --exec 'git commit --amend --no-edit -n' "origin/$BUILDKITE_PIPELINE_DEFAULT_BRANCH" || git rebase --abort; exit 1
     # This should fail in case we're trying to overwrite some new commits
     ! git push --force-with-lease || break
 done
