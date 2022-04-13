@@ -58,7 +58,19 @@ for arch in "${architecture[@]}"; do
        ./scripts/build-one-bottle.sh \"$f\"
      fi
    artifact_paths:
-     - '*.bottle.*'"
+     - '*.bottle.*'
+
+ - label: Attach $f bottle for Big Sur $arch to release
+   key: attach-bottle-$arch-$n
+   if: build.tag =~ /^v.*/
+   depends_on: \"build-bottle-$arch-$n\"
+   command: |
+     if [ \$\$(buildkite-agent step get \"outcome\" --step \"check-built-$arch-$n\") == "passed" ]; then
+       buildkite-agent artifact download \"$f*.$brew_bottle_os.bottle.tar.gz\" .
+       export FORMULA_TAG=\"\$(sed -n 's/^\s\+version \"\(.*\)\"/\1/p' ./Formula/tezos-client.rb)\"
+       nix-shell ./scripts/shell.nix
+         --run 'gh release upload \"\$\$FORMULA_TAG\" $f*.$brew_bottle_os.bottle.tar.gz'
+     fi"
   done
 
   ymlappend "
@@ -98,16 +110,4 @@ done
    - buildkite-agent artifact download \"*bottle.tar.gz\" \"Big Sur/\"
    - export FORMULA_TAG=\"\$(sed -n 's/^\s\+version \"\(.*\)\"/\1/p' ./Formula/tezos-client.rb)\"
    - nix-shell ./scripts/shell.nix
-       --run './scripts/sync-bottle-hashes.sh \"\$\$FORMULA_TAG\" \"Big Sur\"'
- - label: Attach bottles to the release
-   depends_on:"
-for arch in "${architecture[@]}"; do
-   ymlappend "   - \"uninstall-tsp-$arch\""
-done
-   ymlappend "   if: build.tag =~ /^v.*/
-   soft_fail: true # No artifacts to download if all the bottles are already built
-   commands:
-   - buildkite-agent artifact download \"*bottle.tar.gz\" .
-   - export FORMULA_TAG=\"\$(sed -n 's/^\s\+version \"\(.*\)\"/\1/p' ./Formula/tezos-client.rb)\"
-   - nix-shell ./scripts/shell.nix
-       --run 'gh release upload \"\$\$FORMULA_TAG\" *.bottle.*'"
+       --run './scripts/sync-bottle-hashes.sh \"\$\$FORMULA_TAG\" \"Big Sur\"'"
