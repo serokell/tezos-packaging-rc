@@ -13,6 +13,15 @@ import readline
 import re
 
 from wizard_structure import *
+from dataclasses import dataclass
+
+
+@dataclass
+class PublicNode:
+    network: str
+    address: str
+    provider: str
+
 
 # Global options
 
@@ -21,6 +30,41 @@ ballot_outcomes = {
     "nay": "Vote for rejecting the proposal",
     "pass": "Submit a vote not influencing the result but contributing to quorum",
 }
+
+public_nodes = [
+    PublicNode(
+        network="mainnet",
+        address="https://rpc.tzbeta.net",  # Node by the Tezos Foundation is the most trusted
+        provider="Tezos Foundation",
+    ),
+    PublicNode(
+        network="mainnet", address="https://mainnet.api.tez.ie", provider="ECAD Labs"
+    ),
+    PublicNode(
+        network="ithacanet",
+        address="https://ithacanet.ecadinfra.com",
+        provider="ECAD Labs",
+    ),
+    PublicNode(
+        network="mainnet", address="https://mainnet.smartpy.io", provider="SmartPy"
+    ),
+    PublicNode(
+        network="ithacanet", address="https://ithacanet.smartpy.io", provider="SmartPy"
+    ),
+    PublicNode(
+        network="ithacanet",
+        address="https://rpczero.tzbeta.net",
+        provider="Tezos Foundation",
+    ),
+    PublicNode(
+        network="mainnet", address="https://teznode.letzbake.com", provider="LetzBake!"
+    ),
+    PublicNode(
+        network="mainnet",
+        address="https://mainnet-tezos.giganode.io",
+        provider="GigaNode",
+    ),
+]
 
 # Command line argument parsing
 
@@ -118,17 +162,49 @@ ballot_outcome_query = Step(
 )
 
 
-def get_node_rpc_addr_query(default=None):
+def get_node_rpc_addr_query(network):
+    node_validator = reachable_url_validator("chains/main/blocks/head/header")
+
+    def get_node_rpc_addr_query_validator(nodes):
+        def helper(answer):
+            if answer.isdigit():
+                answer = int(answer)
+                if answer not in range(1, len(nodes) + 1):
+                    raise ValueError("Please choose one of the provided values")
+                return nodes[answer - 1].address
+            else:
+                node_validator(answer)
+
+        return helper
+
+    def node_alive(address):
+        try:
+            node_validator(address)
+            return True
+        except:
+            return False
+
+    relevant_nodes = list(
+        filter(
+            lambda node: node.network == network and node_alive(node.address),
+            public_nodes,
+        )
+    )
     return Step(
         id="node_rpc_addr",
-        prompt="Provide the node's RPC address.",
+        prompt="Provide the node's RPC address."
+        if not relevant_nodes
+        else "Choose one of the public nodes or provide the node's RPC address.",
         help="The node's RPC address will be used by tezos-client to vote. If you have baking set up\n"
         "through systemd services, the address is usually 'http://localhost:8732' by default.",
-        default=default,
+        default=None if not relevant_nodes else "1",
+        options=list(
+            map(lambda node: node.provider + ": " + node.address, relevant_nodes)
+        ),
         validator=Validator(
             [
                 required_field_validator,
-                reachable_url_validator("chains/main/blocks/head/header"),
+                get_node_rpc_addr_query_validator(relevant_nodes),
             ]
         ),
     )
@@ -212,7 +288,9 @@ class Setup(Setup):
 
             self.config["node_rpc_addr"] = self.search_client_config("endpoint", None)
             if self.config["node_rpc_addr"] is None:
-                self.query_and_update_config(get_node_rpc_addr_query())
+                self.query_and_update_config(
+                    get_node_rpc_addr_query(self.config["network"])
+                )
 
             key_import_modes.pop("json", None)
             self.get_baker_key()
