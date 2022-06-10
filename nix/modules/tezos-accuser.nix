@@ -8,9 +8,9 @@ with lib;
 let
   tezos-accuser-pkgs = {
     "012-Psithaca" =
-      "${pkgs.ocamlPackages.tezos-accuser-012-Psithaca}/bin/tezos-accuser-012-Psithaca";
+      "${pkgs.tezosPackages.tezos-accuser-012-Psithaca}/bin/tezos-accuser-012-Psithaca";
     "013-PtJakart" =
-      "${pkgs.ocamlPackages.tezos-accuser-013-PtJakart}/bin/tezos-accuser-013-PtJakart";
+      "${pkgs.tezosPackages.tezos-accuser-013-PtJakart}/bin/tezos-accuser-013-PtJakart";
   };
   cfg = config.services.tezos-accuser;
   common = import ./common.nix { inherit lib; inherit pkgs; };
