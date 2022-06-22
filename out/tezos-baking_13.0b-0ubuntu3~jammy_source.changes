@@ -1,0 +1,28 @@
+Format: 1.8
+Date: Wed, 22 Jun 2022 10:59:11 +0000
+Source: tezos-baking
+Architecture: source
+Version: 2:13.0b-0ubuntu3~jammy
+Distribution: jammy
+Urgency: medium
+Maintainer: Serokell <hi@serokell.io>
+Changed-By: Serokell <hi@serokell.io>
+Changes:
+ tezos-baking (2:13.0b-0ubuntu3~jammy) jammy; urgency=medium
+ .
+   * Publish 13.0b-3 version of tezos-baking
+Checksums-Sha1:
+ bb87ec4809498da00adff613cf32e6c57a99f8a4 976 tezos-baking_13.0b-0ubuntu3~jammy.dsc
+ dce5742c302d4acadcb3ea5406e5d8bf407d154f 15447 tezos-baking_13.0b.orig.tar.gz
+ b7bbdc968fc3b74a83851d3210370e66cabd0cbe 3208 tezos-baking_13.0b-0ubuntu3~jammy.debian.tar.xz
+ 79ab9f30f57f3ac2cf1b7cc1b8458e5261213d61 5939 tezos-baking_13.0b-0ubuntu3~jammy_source.buildinfo
+Checksums-Sha256:
+ 1c39faa1f155120d11adc013d4ede0472b0b5f679e59cc0ce64856fc2987a10a 976 tezos-baking_13.0b-0ubuntu3~jammy.dsc
+ a3f5a907c715932ff58f3c57f33877061f9c51baba1edd0160a61bff3b7c2cbd 15447 tezos-baking_13.0b.orig.tar.gz
+ 21fc1be8d392b878955a35adb265d715a3af38c880bd6a88247768f74bf589b9 3208 tezos-baking_13.0b-0ubuntu3~jammy.debian.tar.xz
+ 3315f6c2c531953c9046d721dbb1e2165339251b199b667fbfa345ac9eab91b8 5939 tezos-baking_13.0b-0ubuntu3~jammy_source.buildinfo
+Files:
+ 3eaeb1325e576083c505a85ee787f48a 976 utils optional tezos-baking_13.0b-0ubuntu3~jammy.dsc
+ ed84e8b4ec89b57bd914ce33eeb8c79b 15447 utils optional tezos-baking_13.0b.orig.tar.gz
+ 40f7ebcef9ae8ca5fb92ea614795557c 3208 utils optional tezos-baking_13.0b-0ubuntu3~jammy.debian.tar.xz
+ 5d2779f908fd9519f026c2f35d2c55bc 5939 utils optional tezos-baking_13.0b-0ubuntu3~jammy_source.buildinfo

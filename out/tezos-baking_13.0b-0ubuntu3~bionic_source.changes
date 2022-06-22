@@ -1,0 +1,28 @@
+Format: 1.8
+Date: Wed, 22 Jun 2022 10:59:11 +0000
+Source: tezos-baking
+Architecture: source
+Version: 2:13.0b-0ubuntu3~bionic
+Distribution: bionic
+Urgency: medium
+Maintainer: Serokell <hi@serokell.io>
+Changed-By: Serokell <hi@serokell.io>
+Changes:
+ tezos-baking (2:13.0b-0ubuntu3~bionic) bionic; urgency=medium
+ .
+   * Publish 13.0b-3 version of tezos-baking
+Checksums-Sha1:
+ 6f1fc1ea6bdf4d6380b020d372f253f84d11c2a0 1001 tezos-baking_13.0b-0ubuntu3~bionic.dsc
+ dce5742c302d4acadcb3ea5406e5d8bf407d154f 15447 tezos-baking_13.0b.orig.tar.gz
+ 743028183e5f5735c8e80a8263e414cfca612468 3216 tezos-baking_13.0b-0ubuntu3~bionic.debian.tar.xz
+ 2681f06c5ab0e394f290481ff78d5146d4801e0c 5976 tezos-baking_13.0b-0ubuntu3~bionic_source.buildinfo
+Checksums-Sha256:
+ c4f8ed9e99a7aaa56cd0e0f931af2dcafc6f28832044183fdaace7e5564add3f 1001 tezos-baking_13.0b-0ubuntu3~bionic.dsc
+ a3f5a907c715932ff58f3c57f33877061f9c51baba1edd0160a61bff3b7c2cbd 15447 tezos-baking_13.0b.orig.tar.gz
+ cd5a656958c2b69fdd885fa7f06192040077445b569a524f4ca8735b8370dadf 3216 tezos-baking_13.0b-0ubuntu3~bionic.debian.tar.xz
+ 1ece4b5bbc8b1474553a0e6769b2e6f2e1f332b1e4871c35517549cd5abe6483 5976 tezos-baking_13.0b-0ubuntu3~bionic_source.buildinfo
+Files:
+ 137a956850f59d7f218a742480b0f832 1001 utils optional tezos-baking_13.0b-0ubuntu3~bionic.dsc
+ ed84e8b4ec89b57bd914ce33eeb8c79b 15447 utils optional tezos-baking_13.0b.orig.tar.gz
+ ca8ee5d9d1040efe37ea2f2883811e03 3216 utils optional tezos-baking_13.0b-0ubuntu3~bionic.debian.tar.xz
+ 455c89d838b93321a89c693815e4afe3 5976 utils optional tezos-baking_13.0b-0ubuntu3~bionic_source.buildinfo

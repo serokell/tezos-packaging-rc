@@ -1,0 +1,28 @@
+Format: 1.8
+Date: Wed, 22 Jun 2022 10:59:11 +0000
+Source: tezos-baking
+Architecture: source
+Version: 2:13.0b-0ubuntu3~focal
+Distribution: focal
+Urgency: medium
+Maintainer: Serokell <hi@serokell.io>
+Changed-By: Serokell <hi@serokell.io>
+Changes:
+ tezos-baking (2:13.0b-0ubuntu3~focal) focal; urgency=medium
+ .
+   * Publish 13.0b-3 version of tezos-baking
+Checksums-Sha1:
+ 3700f7b6ab578fad744b7403ef3023402963e780 997 tezos-baking_13.0b-0ubuntu3~focal.dsc
+ dce5742c302d4acadcb3ea5406e5d8bf407d154f 15447 tezos-baking_13.0b.orig.tar.gz
+ c0b16ceeb0f2cebd094c3e816cac2acb4016cb87 3216 tezos-baking_13.0b-0ubuntu3~focal.debian.tar.xz
+ 5efc49c7872b5bdb4fcf8a321e618114fcac3039 5969 tezos-baking_13.0b-0ubuntu3~focal_source.buildinfo
+Checksums-Sha256:
+ 5750001d0b8a8b6375bb70bf47a65a56c4497059eebb9c4621067bea450c5bef 997 tezos-baking_13.0b-0ubuntu3~focal.dsc
+ a3f5a907c715932ff58f3c57f33877061f9c51baba1edd0160a61bff3b7c2cbd 15447 tezos-baking_13.0b.orig.tar.gz
+ aab5c84f981a9138290e056c607ed9165a4f9bd2a51d35cf3f7661ca6635a1b0 3216 tezos-baking_13.0b-0ubuntu3~focal.debian.tar.xz
+ a356a378632738cf91622ad157c2b4bfd66c4ebc9b983e2ccb6d6e06a0ab0531 5969 tezos-baking_13.0b-0ubuntu3~focal_source.buildinfo
+Files:
+ 7b85922a4e1c5fc9ff8a68d4b41c9ab3 997 utils optional tezos-baking_13.0b-0ubuntu3~focal.dsc
+ ed84e8b4ec89b57bd914ce33eeb8c79b 15447 utils optional tezos-baking_13.0b.orig.tar.gz
+ f97a54b14e3dbf8d93899b4bdef67c37 3216 utils optional tezos-baking_13.0b-0ubuntu3~focal.debian.tar.xz
+ f28588ef68333d53a70bb3ac3759d20e 5969 utils optional tezos-baking_13.0b-0ubuntu3~focal_source.buildinfo
