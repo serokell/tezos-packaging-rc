@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: 2022 Oxhead Alpha
 # SPDX-License-Identifier: LicenseRef-MIT-OA
 
+env:
+  USE_NEWER_NIX: 1
+
 steps:
  - label: Check for new Tezos release
    if: build.source == "schedule" && build.branch == "master"
