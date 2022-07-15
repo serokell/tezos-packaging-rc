@@ -7,8 +7,7 @@ let
   pkgs = import ./build/pkgs.nix { };
   source = (import ./nix/sources.nix).tezos;
   protocols = import ./protocols.nix;
-  release-binaries = builtins.filter (elem: elem.name != "tezos-sandbox")
-    (import ./build/release-binaries.nix);
+  release-binaries = import ./build/release-binaries.nix;
   binaries = builtins.listToAttrs (map (meta: {
     inherit (meta) name;
     value = pkgs.ocamlPackages.${meta.name} // { inherit meta; };
