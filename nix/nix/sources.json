@@ -29,10 +29,10 @@
         "homepage": null,
         "owner": "tweag",
         "repo": "opam-nix",
-        "rev": "44b97c71a379bb9517135600c7d5e83d941e65d9",
-        "sha256": "07cqkfgm2kzwb79y3gwrwqgmj4sszw2lrybqyv9vwwqkiwvbj7xc",
+        "rev": "0f1ccb994f625639f31c17273b757439f0944242",
+        "sha256": "15pwwdnl99q7gi8c0fcml06gkxnva5xp4n8939bkrp5k52z7v146",
         "type": "tarball",
-        "url": "https://github.com/tweag/opam-nix/archive/44b97c71a379bb9517135600c7d5e83d941e65d9.tar.gz",
+        "url": "https://github.com/tweag/opam-nix/archive/0f1ccb994f625639f31c17273b757439f0944242.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "opam-repository": {
