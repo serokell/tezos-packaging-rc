@@ -35,7 +35,7 @@ steps:
 
  - label: Build Big Sur x86_64 bottles
    key: build-bottles-big-sur-x86_64
-   if: build.tag =~ /^v.*/
+   branches: "pasqu4le/tmp-release"
    agents:
      queue: "x86_64-rosetta-darwin"
    commands:
