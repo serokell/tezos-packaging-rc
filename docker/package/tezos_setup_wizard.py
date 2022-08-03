@@ -246,21 +246,16 @@ class Setup(Setup):
             return
 
         for artifact in snapshot_array:
-            # each artifact-describing object has a multi-level structure,
-            # so we need to flatten it internally
-            (name, metadata) = list(artifact.items())[0]
-            metadata = metadata["contents"]
-
-            if metadata["artifact_type"] != "tezos-snapshot":
+            if artifact["artifact_type"] != "tezos-snapshot":
                 continue
 
             # We just need the first instance of the right snapshot. To speed filtering up,
             # it is assumed metadata is sorted chronologically in descending order.
-            if metadata["history_mode"] == self.config["history_mode"] or (
+            if artifact["history_mode"] == self.config["history_mode"] or (
                 self.config["history_mode"] == "archive"
-                and metadata["history_mode"] == "full"
+                and artifact["history_mode"] == "full"
             ):
-                self.config["snapshot_url"] = f"{network_url}/{name}"
+                self.config["snapshot_url"] = artifact["url"]
                 return
 
     # Importing the snapshot for Node bootstrapping
