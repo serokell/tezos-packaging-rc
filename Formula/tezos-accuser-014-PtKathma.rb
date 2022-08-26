@@ -70,16 +70,16 @@ class TezosAccuser014Ptkathma < Formula
 
       if [ ! -f "$accuser_config" ]; then
           "$accuser" --base-dir "$accuser_dir" \
-                    --endpoint "$NODE_RPC_ENDPOINT" \
+                    --endpoint "$NODE_RPC_ADDR" \
                     config init --output "$accuser_config" >/dev/null 2>&1
       else
           "$accuser" --base-dir "$accuser_dir" \
-                    --endpoint "$NODE_RPC_ENDPOINT" \
+                    --endpoint "$NODE_RPC_ADDR" \
                     config update >/dev/null 2>&1
       fi
 
       exec "$accuser" --base-dir "$accuser_dir" \
-          --endpoint "$NODE_RPC_ENDPOINT" \
+          --endpoint "$NODE_RPC_ADDR" \
           run
     EOS
     File.write("tezos-accuser-014-PtKathma-start", startup_contents)
@@ -106,7 +106,7 @@ class TezosAccuser014Ptkathma < Formula
             <dict>
               <key>DATA_DIR</key>
               <string>#{var}/lib/tezos/client</string>
-              <key>NODE_RPC_ENDPOINT</key>
+              <key>NODE_RPC_ADDR</key>
               <string>http://localhost:8732</string>
           </dict>
           <key>RunAtLoad</key><true/>
