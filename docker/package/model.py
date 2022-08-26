@@ -579,7 +579,10 @@ class TezosBakingServicesPackage(AbstractPackage):
                 self.__gen_baking_systemd_unit(
                     requires,
                     f"Tezos baking instance for {network}",
-                    [f"/etc/default/tezos-baking-{network}"],
+                    [
+                        f"/etc/default/tezos-baking-{network}",
+                        f"/etc/default/tezos-node-{network}",
+                    ],
                     "tezos-baking.conf",
                     network,
                 )
@@ -591,7 +594,10 @@ class TezosBakingServicesPackage(AbstractPackage):
         custom_unit = self.__gen_baking_systemd_unit(
             custom_requires,
             f"Tezos baking instance for custom network",
-            [f"/etc/default/tezos-baking-custom@%i"],
+            [
+                f"/etc/default/tezos-baking-custom@%i",
+                f"/etc/default/tezos-node-custom@%i",
+            ],
             "tezos-baking-custom.conf",
             "custom",
         )
