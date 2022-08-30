@@ -241,22 +241,25 @@ class Setup(Setup):
         try:
             with urllib.request.urlopen(json_url) as url:
                 snapshot_array = json.load(url)
+                snapshot_array.reverse()
         except (urllib.error.URLError, ValueError):
             print(f"Couldn't collect snapshot metadata from {json_url}")
             return
 
-        for artifact in snapshot_array:
-            if artifact["artifact_type"] != "tezos-snapshot":
-                continue
-
-            # We just need the first instance of the right snapshot. To speed filtering up,
-            # it is assumed metadata is sorted chronologically in descending order.
-            if artifact["history_mode"] == self.config["history_mode"] or (
-                self.config["history_mode"] == "archive"
-                and artifact["history_mode"] == "full"
-            ):
-                self.config["snapshot_url"] = artifact["url"]
-                return
+        self.config["snapshot_url"] = next(
+            filter(
+                lambda artifact: artifact["artifact_type"] == "tezos-snapshot"
+                and (
+                    artifact["history_mode"] == self.config["history_mode"]
+                    or (
+                        self.config["history_mode"] == "archive"
+                        and artifact["history_mode"] == "full"
+                    )
+                ),
+                iter(snapshot_array),
+            ),
+            {"url": None},
+        )["url"]
 
     # Importing the snapshot for Node bootstrapping
     def import_snapshot(self):
