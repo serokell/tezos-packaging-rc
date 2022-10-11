@@ -20,9 +20,9 @@ networks = {
     "kathmandunet": "kathmandunet",
 }
 networks_protos = {
-    "mainnet": ["014-PtKathma"],
-    "ghostnet": ["014-PtKathma"],
-    "kathmandunet": ["014-PtKathma"],
+    "mainnet": ["PtKathma"],
+    "ghostnet": ["PtKathma"],
+    "kathmandunet": ["PtKathma"],
 }
 
 signer_units = [
@@ -210,13 +210,13 @@ for network, network_config in networks.items():
         mk_node_unit(suffix=network, env=env, desc=f"Tezos node {network}")
     )
     node_postinst_steps += f"""mkdir -p /var/lib/tezos/node-{network}
-[ ! -f /var/lib/tezos/node-{network}/config.json ] && tezos-node config init --data-dir /var/lib/tezos/node-{network} --network {network_config}
+[ ! -f /var/lib/tezos/node-{network}/config.json ] && octez-node config init --data-dir /var/lib/tezos/node-{network} --network {network_config}
 chown -R tezos:tezos /var/lib/tezos/node-{network}
 
 cat > /usr/bin/tezos-node-{network} <<- 'EOM'
 #! /usr/bin/env bash
 
-TEZOS_NODE_DIR="$(cat $(systemctl show -p FragmentPath tezos-node-{network}.service | cut -d'=' -f2) | grep 'DATA_DIR' | cut -d '=' -f3 | cut -d '"' -f1)" tezos-node "$@"
+TEZOS_NODE_DIR="$(cat $(systemctl show -p FragmentPath tezos-node-{network}.service | cut -d'=' -f2) | grep 'DATA_DIR' | cut -d '=' -f3 | cut -d '"' -f1)" octez-node "$@"
 EOM
 chmod +x /usr/bin/tezos-node-{network}
 """
