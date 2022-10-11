@@ -15,9 +15,9 @@ in import "${nixpkgs}/nixos/tests/make-test-python.nix" ({ ... }:
 
   testScript = ''
     path_to_binaries = "${path-to-binaries}"
-    tezos_accuser = f"{path_to_binaries}/tezos-accuser-013-PtJakart"
+    tezos_accuser = f"{path_to_binaries}/tezos-accuser-PtKathma"
     tezos_admin_client = f"{path_to_binaries}/tezos-admin-client"
-    tezos_baker = f"{path_to_binaries}/tezos-baker-013-PtJakart"
+    tezos_baker = f"{path_to_binaries}/tezos-baker-PtKathma"
     tezos_client = f"{path_to_binaries}/tezos-client"
     tezos_node = f"{path_to_binaries}/tezos-node"
     tezos_signer = f"{path_to_binaries}/tezos-signer"
