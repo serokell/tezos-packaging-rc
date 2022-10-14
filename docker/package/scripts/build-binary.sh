@@ -24,7 +24,6 @@ eval "$(opam env)"
 
 # TODO remove on next upstream release
 opam install ledgerwallet-tezos --criteria=-changed
-make
 
 dune build "$dune_filepath"
 cp "./_build/default/$dune_filepath" "../$binary_name"
