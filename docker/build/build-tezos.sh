@@ -7,6 +7,7 @@ set -euo pipefail
 
 tezos_version="$1"
 git clone --single-branch --branch "$tezos_version" https://gitlab.com/tezos/tezos.git --depth 1
+cd tezos
 
 source "$HOME/.cargo/env"
 export OPAMYES="true"
