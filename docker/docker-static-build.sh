@@ -42,9 +42,9 @@ fi
 
 arch="$(uname -m)"
 
-"$virtualisation_engine" build -t alpine-tezos -f "$docker_file" --build-arg OCTEZ_VERSION="$OCTEZ_VERSION" --build-arg ARCH="$arch" .
+"$virtualisation_engine" build -t alpine-tezos -f "$docker_file" --build-arg OCTEZ_VERSION="$OCTEZ_VERSION" .
 container_id="$("$virtualisation_engine" create alpine-tezos)"
 for b in "${binaries[@]}"; do
-    "$virtualisation_engine" cp "$container_id:/tezos/octez-binaries/$arch/$b" "$b"
+    "$virtualisation_engine" cp "$container_id:/tezos/$b" "$b"
 done
 "$virtualisation_engine" rm -v "$container_id"
