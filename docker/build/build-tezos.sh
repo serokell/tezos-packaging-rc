@@ -20,7 +20,6 @@ make build-deps
 # TODO remove on next upstream release
 eval "$(opam env)"
 opam install ledgerwallet-tezos --criteria=-changed
-make
 
 eval "$(opam env)" && PROFILE="static" make build
 chmod +w octez-*
