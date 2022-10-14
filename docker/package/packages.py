@@ -27,6 +27,11 @@ networks_protos = {
     "kathmandunet": ["PtKathma"],
 }
 
+protocol_numbers = {
+    "PtKathma": "014",
+    "PtLimaPt": "015",
+}
+
 signer_units = [
     SystemdUnit(
         ServiceFile(
@@ -281,7 +286,7 @@ daemon_postinst_common = (
 
 
 for proto in active_protocols:
-    proto_snake_case = proto.replace("-", "_")
+    proto_snake_case = protocol_numbers[proto] + "_" + proto
     daemons_instances = [
         network for network, protos in networks_protos.items() if proto in protos
     ]
@@ -460,7 +465,7 @@ def mk_rollup_packages():
         ]
 
     def mk_rollup_package(name, type, proto):
-        proto_snake_case = proto.replace("-", "_")
+        proto_snake_case = protocol_numbers[proto] + "_" + proto
         return TezosBinaryPackage(
             f"tezos-{type}-rollup-{name}-{proto}",
             f"Tezos {type} rollup {name} using {proto}",
