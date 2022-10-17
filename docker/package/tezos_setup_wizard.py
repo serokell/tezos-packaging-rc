@@ -240,7 +240,7 @@ class Setup(Setup):
             self.query_step(history_mode_query)
 
             proc_call(
-                f"sudo -u tezos tezos-{self.config['network']}-octez-node config update "
+                f"sudo -u tezos octez-node-{self.config['network']} config update "
                 f"--history-mode {self.config['history_mode']}"
             )
 
