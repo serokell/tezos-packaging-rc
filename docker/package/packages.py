@@ -220,16 +220,16 @@ for network, network_config in networks.items():
 [ ! -f /var/lib/tezos/node-{network}/config.json ] && octez-node config init --data-dir /var/lib/tezos/node-{network} --network {network_config}
 chown -R tezos:tezos /var/lib/tezos/node-{network}
 
-cat > /usr/bin/tezos-{network}-octez-node <<- 'EOM'
+cat > /usr/bin/octez-node-{network} <<- 'EOM'
 #! /usr/bin/env bash
 
 TEZOS_NODE_DIR="$(cat $(systemctl show -p FragmentPath tezos-node-{network}.service | cut -d'=' -f2) | grep 'DATA_DIR' | cut -d '=' -f3 | cut -d '"' -f1)" octez-node "$@"
 EOM
-chmod +x /usr/bin/tezos-{network}-octez-node
-ln -s /usr/bin/tezos-{network}-octez-node /usr/bin/tezos-node-{network}
+chmod +x /usr/bin/octez-node-{network}
+ln -s /usr/bin/octez-node-{network} /usr/bin/tezos-node-{network}
 """
     node_postrm_steps += f"""
-rm -f /usr/bin/tezos-{network}-octez-node /usr/bin/tezos-node-{network}
+rm -f /usr/bin/octez-node-{network} /usr/bin/tezos-node-{network}
 """
 
 # Add custom config service

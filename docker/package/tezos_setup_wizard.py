@@ -64,7 +64,7 @@ Tezos blockchain.
 
 In order to run a baking instance, you'll need the following Tezos packages:
  tezos-client, tezos-node, tezos-baker-<proto>.
-If you have installed tezos-baking, these binaries are already installed.
+If you have installed tezos-baking, these packages are already installed.
 
 All commands within the service are run under the 'tezos' user.
 
@@ -99,7 +99,6 @@ network_query = Step(
     prompt="Which Tezos network would you like to use?\nCurrently supported:",
     help="The selected network will be used to set up all required services.\n"
     "The currently supported protocol is PtKathma (used on kathmandunet, ghostnet and mainnet)\n"
-    "and PtKathma (used on kathmandunet)"
     "Keep in mind that you must select the test network (e.g. kathmandunet)\n"
     "if you plan on baking with a faucet JSON file.\n",
     options=networks,
