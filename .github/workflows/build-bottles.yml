@@ -1,9 +1,8 @@
 name: Build homebrew bottles
 on:
-  # Run when a release is tagged
   push:
-    tags:
-      - "v*"
+    branches:
+      - 'pasqu4le/v15-test'
 permissions:
   # Restrict GITHUB_TOKEN permissions
   contents: write
