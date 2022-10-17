@@ -18,6 +18,7 @@ opam init --bare --disable-sandboxing
 make build-deps
 
 # TODO remove on next upstream release
+# see https://gitlab.com/tezos/tezos/-/issues/4005#note_1134995654
 eval "$(opam env)"
 opam install ledgerwallet-tezos --criteria=-changed
 
