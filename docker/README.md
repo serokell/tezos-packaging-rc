@@ -117,7 +117,7 @@ There are 5 files for each package: `.orig.tar.gz`, `.debian.tar.xz`,
 
 You can test source package building using [`pbuilder`](https://wiki.ubuntu.com/PbuilderHowto).
 
-<!-- Updated: 2022/10/17 11:18:36 by dlaptov          ###   ########.fr      -->
+In order to push the packages to the Launchpad PPA `*.changes` files should should be updated with
 the submitter info and signed.
 
 In order to update `*.changes` files with the proper signer info run the following:
