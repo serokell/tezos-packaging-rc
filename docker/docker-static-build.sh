@@ -40,8 +40,6 @@ if [[ $arch == "aarch64" && $(uname -m) != "x86_64" ]]; then
     echo "Compiling for aarch64 is supported only from aarch64 and x86_64"
 fi
 
-arch="$(uname -m)"
-
 "$virtualisation_engine" build -t alpine-tezos -f "$docker_file" --build-arg OCTEZ_VERSION="$OCTEZ_VERSION" .
 container_id="$("$virtualisation_engine" create alpine-tezos)"
 for b in "${binaries[@]}"; do
