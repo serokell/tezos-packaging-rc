@@ -98,7 +98,7 @@ in {
           "${octez-signer-launch} local signer --socket ${node-cfg.unixSocket}";
       };
       in {
-      services."octez-${node-name}-octez-signer" = common.genSystemdService node-name node-cfg "signer" // {
+      services."tezos-${node-name}-octez-signer" = common.genSystemdService node-name node-cfg "signer" // {
         after = [ "network.target" ];
         script = ''
           ${octez-signers.${node-cfg.networkProtocol}}

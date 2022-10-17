@@ -55,7 +55,7 @@ import "${nixpkgs}/nixos/tests/make-test-python.nix" ({ ... }:
     ]
 
     for s in services:
-        machine.wait_for_unit(f"octez-kathmandunet-{s}.service")
+        machine.wait_for_unit(f"tezos-kathmandunet-{s}.service")
 
     with subtest("check octez-node rpc response"):
         machine.wait_for_open_port(8732)
@@ -65,6 +65,6 @@ import "${nixpkgs}/nixos/tests/make-test-python.nix" ({ ... }:
 
     with subtest("service status sanity check"):
         for s in services:
-            machine.succeed(f"systemctl status octez-kathmandunet-{s}.service")
+            machine.succeed(f"systemctl status tezos-kathmandunet-{s}.service")
   '';
 }) { inherit pkgs system; }

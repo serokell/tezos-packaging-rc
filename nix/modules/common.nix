@@ -53,8 +53,8 @@ rec {
         let octez-client = "${pkgs.octezPackages.octez-client}/bin/octez-client";
             passwordFilenameArg = if node-cfg.passwordFilename != null then "-f ${node-cfg.passwordFilename}" else "";
         in {
-          services."octez-${node-name}-octez-${service-name}" = lib.recursiveUpdate (genSystemdService node-name node-cfg service-name) rec {
-            bindsTo = [ "network.target" "octez-${node-name}-octez-node.service" ];
+          services."tezos-${node-name}-octez-${service-name}" = lib.recursiveUpdate (genSystemdService node-name node-cfg service-name) rec {
+            bindsTo = [ "network.target" "tezos-${node-name}-octez-node.service" ];
             after = bindsTo;
             path = with pkgs; [ curl ];
             preStart =
@@ -85,8 +85,8 @@ rec {
     };
 
   genUsers = node-name: {
-    groups."octez-${node-name}" = { };
-    users."octez-${node-name}" = { group = "octez-${node-name}"; isNormalUser = true; };
+    groups."tezos-${node-name}" = { };
+    users."tezos-${node-name}" = { group = "tezos-${node-name}"; isNormalUser = true; };
   };
 
   genSystemdService = node-name: node-cfg: service-name: {
@@ -96,9 +96,9 @@ rec {
       OCTEZ_LOG = "* -> ${node-cfg.logVerbosity}";
     };
     serviceConfig = {
-      User = "octez-${node-name}";
-      Group = "octez-${node-name}";
-      StateDirectory = "octez-${node-name}";
+      User = "tezos-${node-name}";
+      Group = "tezos-${node-name}";
+      StateDirectory = "tezos-${node-name}";
       Restart = "always";
       RestartSec = "10";
     };

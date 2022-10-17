@@ -92,7 +92,7 @@ in {
   config = mkIf (cfg.instances != {}) {
     users = mkMerge (flip mapAttrsToList cfg.instances (node-name: node-cfg: common.genUsers node-name ));
     systemd = mkMerge (flip mapAttrsToList cfg.instances (node-name: node-cfg: {
-      services."octez-${node-name}-octez-node" = common.genSystemdService node-name node-cfg "node" // {
+      services."tezos-${node-name}-octez-node" = common.genSystemdService node-name node-cfg "node" // {
         after = [ "network.target" ];
         preStart =
           ''
