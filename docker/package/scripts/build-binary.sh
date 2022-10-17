@@ -23,6 +23,7 @@ opam install "${opams[@]}" --deps-only --criteria="-notuptodate,-changed,-remove
 eval "$(opam env)"
 
 # TODO remove on next upstream release
+# see https://gitlab.com/tezos/tezos/-/issues/4005#note_1134995654
 opam install ledgerwallet-tezos --criteria=-changed
 
 dune build "$dune_filepath"
