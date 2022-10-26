@@ -66,9 +66,7 @@ def build_ubuntu_package(
             ]:
                 if script is not None:
                     dest_path = f"debian/{script}"
-                    source_script_name = (
-                        script if script_source is None else script_source
-                    )
+                    source_script_name = script if script_source is None else script_source
                     source_path = f"{cwd}/scripts/{source_script_name}"
                     shutil.copy(source_path, dest_path)
         # Patches only make sense when we're reusing the old sources that are not static binary
@@ -93,9 +91,7 @@ def build_ubuntu_package(
         pkg.meta.version = old_version
         pkg.gen_license("debian/copyright")
         pkg.meta.version = fixed_version
-        subprocess.run(
-            "rm debian/*.ex debian/*.EX debian/README*", shell=True, check=True
-        )
+        subprocess.run("rm debian/*.ex debian/*.EX debian/README*", shell=True, check=True)
         pkg.gen_changelog(ubuntu_version, pkg.meta.maintainer, date, "debian/changelog")
         subprocess.run(
             ["dpkg-buildpackage", "-S" if is_source else "-b", "-us", "-uc"],
