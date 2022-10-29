@@ -5,6 +5,7 @@ import os, shutil, subprocess
 from typing import List
 
 from .model import AbstractPackage
+from .packages import networks
 from .systemd import print_service_file
 
 
@@ -71,6 +72,10 @@ def build_ubuntu_package(
                     )
                     source_path = f"{cwd}/scripts/{source_script_name}"
                     shutil.copy(source_path, dest_path)
+
+        if pkg.supply_additional_files:
+            (pkg.supply_additional_files)(cwd, "debian")
+
         # Patches only make sense when we're reusing the old sources that are not static binary
         if (
             len(pkg.patches) > 0

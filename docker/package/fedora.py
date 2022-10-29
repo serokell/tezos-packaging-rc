@@ -55,6 +55,8 @@ def build_fedora_package(
     subprocess.run(["tar", "-czf", f"{dir}.tar.gz", dir], check=True)
     os.makedirs(f"{home}/rpmbuild/SPECS", exist_ok=True)
     os.makedirs(f"{home}/rpmbuild/SOURCES", exist_ok=True)
+    if pkg.supply_additional_files:
+        (pkg.supply_additional_files)(cwd, f"{home}/rpmbuild/SOURCES")
     pkg.gen_spec_file(
         build_deps + run_deps, run_deps, f"{home}/rpmbuild/SPECS/{pkg.name}.spec"
     )

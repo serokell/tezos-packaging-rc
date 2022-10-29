@@ -22,6 +22,10 @@ class AbstractPackage:
 
     buildfile = "Makefile"
 
+    supply_additional_files = None
+
+    additional_files = []
+
     @abstractmethod
     def fetch_sources(self, out_dir, binaries_dir=None):
         pass
@@ -61,6 +65,10 @@ class AbstractPackage:
             ]:
                 if script is not None:
                     scripts.add(script)
+        for file in self.additional_files:
+            scripts.add(file)
+            if "octez" in file:
+                scripts.add(file.replace("octez", "tezos"))
         if len(scripts) > 0:
             install_contents = "\n".join([f"debian/{x} usr/bin" for x in scripts])
             with open(out, "w") as f:
@@ -205,6 +213,8 @@ class TezosBinaryPackage(AbstractPackage):
         target_proto: str = None,
         postinst_steps: str = "",
         postrm_steps: str = "",
+        additional_files: List[str] = [],
+        supply_additional_files=None,
         additional_native_deps: List[str] = [],
         patches: List[str] = [],
     ):
@@ -215,6 +225,8 @@ class TezosBinaryPackage(AbstractPackage):
         self.postinst_steps = postinst_steps
         self.postrm_steps = postrm_steps
         self.additional_native_deps = additional_native_deps
+        self.additional_files = additional_files
+        self.supply_additional_files = supply_additional_files
         self.meta = meta
         self.dune_filepath = dune_filepath
         self.patches = patches
@@ -300,6 +312,37 @@ Description: {self.desc}
         ) = gen_spec_systemd_part(self)
         version = self.meta.version.replace("-", "")
 
+        additional_files_install = (
+            "\n".join(
+                map(
+                    lambda x: f"install -m 0755 %{{_sourcedir}}/{x} %{{buildroot}}/%{{_bindir}}\n"
+                    + f'ln -s %{{_bindir}}/{x} %{{buildroot}}/%{{_bindir}}/{x.replace("octez", "tezos")}'
+                    if "octez" in x
+                    else "",
+                    self.additional_files,
+                )
+            )
+            if self.additional_files
+            else ""
+        )
+
+        additional_files = (
+            "\n".join(
+                map(
+                    lambda x: "%{_bindir}/" + x,
+                    self.additional_files
+                    + list(
+                        map(
+                            lambda x: x.replace("octez", "tezos"),
+                            filter(lambda x: "octez" in x, self.additional_files),
+                        )
+                    ),
+                )
+            )
+            if self.additional_files
+            else ""
+        )
+
         file_contents = f"""
 %define debug_package %{{nil}}
 Name:    {self.name}
@@ -323,10 +366,12 @@ Maintainer: {self.meta.maintainer}
 make {binary_name}
 mkdir -p %{{buildroot}}/%{{_bindir}}
 install -m 0755 {binary_name} %{{buildroot}}/%{{_bindir}}
-ln -sf %{{_bindir}}/{binary_name} %{{buildroot}}/%{{_bindir}}/{self.name}
+ln -s %{{_bindir}}/{binary_name} %{{buildroot}}/%{{_bindir}}/{self.name}
+{additional_files_install}
 {systemd_install}
 %files
 %license LICENSE
+{additional_files}
 %{{_bindir}}/{binary_name}
 %{{_bindir}}/{self.name}
 {systemd_files}

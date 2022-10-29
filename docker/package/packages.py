@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2021 Oxhead Alpha
 # SPDX-License-Identifier: LicenseRef-MIT-OA
-import os, json
+import os, json, stat
 
 from .meta import packages_meta
 
@@ -205,6 +205,8 @@ def mk_node_unit(
 
 
 node_units = []
+node_additional_files = []
+node_additional_files_install = []
 node_postinst_steps = postinst_steps_common
 node_postrm_steps = ""
 common_node_env = ["NODE_RPC_ADDR=127.0.0.1:8732", "CERT_PATH=", "KEY_PATH="]
@@ -216,20 +218,10 @@ for network, network_config in networks.items():
     node_units.append(
         mk_node_unit(suffix=network, env=env, desc=f"Tezos node {network}")
     )
+    node_additional_files.append(f"octez-node-{network}")
     node_postinst_steps += f"""mkdir -p /var/lib/tezos/node-{network}
 [ ! -f /var/lib/tezos/node-{network}/config.json ] && octez-node config init --data-dir /var/lib/tezos/node-{network} --network {network_config}
 chown -R tezos:tezos /var/lib/tezos/node-{network}
-
-cat > /usr/bin/octez-node-{network} <<- 'EOM'
-#! /usr/bin/env bash
-
-TEZOS_NODE_DIR="$(cat $(systemctl show -p FragmentPath tezos-node-{network}.service | cut -d'=' -f2) | grep 'DATA_DIR' | cut -d '=' -f3 | cut -d '"' -f1)" octez-node "$@"
-EOM
-chmod +x /usr/bin/octez-node-{network}
-ln -sf /usr/bin/octez-node-{network} /usr/bin/tezos-node-{network}
-"""
-    node_postrm_steps += f"""
-rm -f /usr/bin/octez-node-{network} /usr/bin/tezos-node-{network}
 """
 
 # Add custom config service
@@ -254,6 +246,21 @@ node_units.append(
     )
 )
 
+
+def node_supply_additional_files(cwd, dest, additional_files=node_additional_files):
+    source_path = f"{cwd}/scripts/octez-node"
+    for script_name in additional_files:
+        dest_path = f"{dest}/{script_name}"
+        with open(source_path, "r") as file:
+            script = file.read()
+        with open(dest_path, "w") as file:
+            file.write(script.replace("{network}", script_name.split("-")[2]))
+        os.chmod(dest_path, stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+        os.symlink(
+            f"/usr/bin/{script_name}", f"{dest}/{script_name.replace('octez', 'tezos')}"
+        )
+
+
 packages.append(
     TezosBinaryPackage(
         "tezos-node",
@@ -262,7 +269,13 @@ packages.append(
         systemd_units=node_units,
         postinst_steps=node_postinst_steps,
         postrm_steps=node_postrm_steps,
-        additional_native_deps=["tezos-sapling-params", "curl", {"ubuntu": "netbase"}],
+        supply_additional_files=node_supply_additional_files,
+        additional_native_deps=[
+            "tezos-sapling-params",
+            "curl",
+            {"ubuntu": "netbase"},
+        ],
+        additional_files=node_additional_files,
         dune_filepath="src/bin_node/main.exe",
     )
 )
