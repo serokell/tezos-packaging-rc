@@ -557,10 +557,12 @@ class TezosBakingServicesPackage(AbstractPackage):
         target_networks: List[str],
         network_protos: Dict[str, List[str]],
         meta: PackagesMeta,
+        additional_native_deps: List[str],
     ):
         self.name = "tezos-baking"
         self.desc = "Package that provides systemd services that orchestrate other services from Tezos packages"
         self.meta = deepcopy(meta)
+        self.additional_native_deps = additional_native_deps
         self.meta.version = self.meta.version + self.letter_version
         self.target_protos = set()
         self.patches = []
@@ -611,8 +613,8 @@ class TezosBakingServicesPackage(AbstractPackage):
 
     def gen_control_file(self, deps, ubuntu_version, out):
         run_deps_list = ["acl"]
-        for proto in self.target_protos:
-            run_deps_list.append(f"tezos-baker-{proto.lower()}")
+        for dep in self.additional_native_deps:
+            run_deps_list.append(dep.lower())
         run_deps = ", ".join(run_deps_list)
         file_contents = f"""
 Source: {self.name}
@@ -634,7 +636,7 @@ Description: {self.desc}
 
     def gen_spec_file(self, build_deps, run_deps, out):
         run_deps = ", ".join(
-            ["acl"] + [f"tezos-baker-{proto}" for proto in self.target_protos],
+            ["acl"] + self.additional_native_deps,
         )
         (
             systemd_deps,
