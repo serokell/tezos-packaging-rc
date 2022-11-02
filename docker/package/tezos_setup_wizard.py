@@ -236,8 +236,7 @@ class Setup(Setup):
     # that is suited for the chosen history mode
     def get_snapshot_link(self):
         self.config["snapshot_url"] = None
-        network_url = f"https://{self.config['network']}.xtz-shots.io"
-        json_url = f"{network_url}/base.json"
+        json_url = "https://xtz-shots.io/base.json"
         try:
             with urllib.request.urlopen(json_url) as url:
                 snapshot_array = json.load(url)
@@ -249,6 +248,7 @@ class Setup(Setup):
         self.config["snapshot_url"] = next(
             filter(
                 lambda artifact: artifact["artifact_type"] == "tezos-snapshot"
+                and artifact["chain_name"] == self.config["network"]
                 and (
                     artifact["history_mode"] == self.config["history_mode"]
                     or (
