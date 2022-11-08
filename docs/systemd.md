@@ -58,11 +58,22 @@ dinamically, you can find the remaining options needed in
 
 ## Systemd units on WSL
 
-Unfortunately, `systemd` is not officially supported on WSL.
+`systemd` is supported on WSL starting from version `0.67.6` and higher. Note that you need to have Windows 11 to install this version.
 
-However, there are several unofficial workarounds for it and some have been known to work with `tezos-packaging`'s units.
+To enable `systemd` startup on boot you need to add the following lines to `/etc/wsl.conf` file:
 
-If you are successfully running a distro on WSL with `systemd`, the documentation above should apply to you too.
+```
+[boot]
+systemd=true
+```
+
+If you have not edit WSL configuration before, this file may be missing. In this case just create it. You may need to restart your machine to apply these changes.
+
+To make sure `systemd` is running on your machine use the `systemctl list-unit-files --type=service` command which should show your services' status.
+
+You can read more about installing and using `systemd` on WSL in [this article](https://devblogs.microsoft.com/commandline/systemd-support-is-now-available-in-wsl/).
+
+After you have configured WSL with `systemd`, the documentation above should apply to you too.
 
 ## Multiple similar systemd services
 
