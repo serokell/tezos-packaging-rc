@@ -49,6 +49,10 @@ if [[ "$latest_upstream_tag" != "$our_tezos_tag" ]]; then
     git commit -a -m "[Chore] Reset release number for $latest_upstream_tag" --gpg-sign="tezos-packaging@serokell.io" || \
       echo "release number wasn't updated"
 
+    sed -i 's/letter_version *= *"[a-z]"/letter_version = ""/' ./docker/package/model.py
+    git commit -a -m "[Chore] Reset letter_version for $latest_upstream_tag" --gpg-sign="tezos-packaging@serokell.io" || \
+      echo "letter_version wasn't reset"
+
     git push --set-upstream origin "$branch_name"
 
     gh pr create -B master -t "[Chore] $latest_upstream_tag release" -F .github/release_pull_request_template.md
