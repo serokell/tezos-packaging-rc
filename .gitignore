@@ -10,3 +10,4 @@ out/
 # docker packages' python cache
 docker/__pycache__/
 docker/package/__pycache__/
+docker/package/util/__pycache__/
