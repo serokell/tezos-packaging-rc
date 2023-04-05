@@ -20,19 +20,33 @@ steps:
      queue: "docker"
    commands:
    - eval "$SET_VERSION"
-   - nix develop .#docker-tezos-packages -c ./docker/docker-tezos-packages.py --os ubuntu --type source -s "Serokell <tezos-packaging@serokell.io>"
-   - nix develop .#docker-tezos-packages -c ./docker/docker-tezos-packages.py --os fedora --type source -s "Serokell <tezos-packaging@serokell.io>"
+   - nix develop .#docker-tezos-packages -c ./docker/package/util/build.py --os ubuntu --type source
+   - nix develop .#docker-tezos-packages -c ./docker/package/util/build.py --os fedora --type source
+   artifact_paths:
+     - ./out/*
+
+ - label: Sign source packages
+   if: build.tag =~ /^v.*-1/
+   depends_on:
+   - "build-source-packages"
+   key: sign-source-packages
+   agents:
+     queue: "docker"
+   commands:
+   - eval "$SET_VERSION"
+   - buildkite-agent artifact download "out/*" . --step build-source-packages
+   - nix develop .#docker-tezos-packages -c ./docker/package/util/sign.py -d out -i 'Serokell <tezos-packaging@serokell.io>'
    artifact_paths:
      - ./out/*
 
  - label: Publish native packages
    if: build.tag =~ /^v.*-1/
    depends_on:
-   - "build-source-packages"
+   - "sign-source-packages"
    commands:
    - eval "$SET_VERSION"
-   - buildkite-agent artifact download "out/*" . --step build-source-packages
-   - nix develop .#autorelease -c ./scripts/publish-native-packages.py out
+   - buildkite-agent artifact download "out/*" . --step sign-source-packages
+   - nix develop .#autorelease -c ./docker/package/util/upload.py -d out
 
  - label: build-via-docker
    if: build.tag =~ /^v.*-1/
