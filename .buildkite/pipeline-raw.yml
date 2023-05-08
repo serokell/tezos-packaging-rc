@@ -11,7 +11,7 @@ steps:
  - label: poke
    key: poke
    commands:
-   - echo "$$SUDO_PASS" | sudo -S wg-quick down wg-serokell
+   - ifconfig
    agents:
     queue: "arm64-darwin"
  - label: Sign formulae update commits
