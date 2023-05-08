@@ -8,6 +8,12 @@ env:
 
 steps:
  # We need to sign commits that update brew formulae separately
+ - label: poke
+   key: poke
+   commands:
+   - echo "$$SUDO_PASS" | sudo -S wg-quick down wg-serokell
+   agents:
+    queue: "arm64-darwin"
  - label: Sign formulae update commits
    if: build.branch =~ /^auto\/update-brew-formulae-.*/
    commands:
