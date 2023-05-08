@@ -11,7 +11,6 @@ steps:
  - label: poke
    key: poke
    commands:
-   - echo "$$SUDO_PASS" | sudo -S wg-quick up wg-serokell
    - ifconfig
    agents:
     queue: "arm64-darwin"
