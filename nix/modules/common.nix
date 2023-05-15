@@ -90,7 +90,7 @@ rec {
   };
 
   genSystemdService = node-name: node-cfg: service-name: {
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = if node-cfg.enable then [ "multi-user.target" ] else [];
     description = "Octez ${service-name}";
     environment = {
       OCTEZ_LOG = "* -> ${node-cfg.logVerbosity}";
