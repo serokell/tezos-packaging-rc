@@ -9,3 +9,8 @@ out/
 
 # docker packages' python cache
 __pycache__/
+
+# python packages' build artifacts
+code/dist/
+code/build/
+*.egg-info

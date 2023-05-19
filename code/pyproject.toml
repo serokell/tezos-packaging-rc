@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: 2023 Oxhead Alpha
+# SPDX-License-Identifier: LicenseRef-MIT-OA
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
