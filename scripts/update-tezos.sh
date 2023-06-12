@@ -30,6 +30,9 @@ our_tezos_tag="$(jq -r '.tezos_ref' meta.json | cut -d'/' -f3)"
 new_meta=$(jq ".tezos_ref=\"$latest_upstream_tag\"" meta.json)
 echo "$new_meta" > meta.json
 
+# Update version of tezos-baking package
+sed -i "s/version = .*/version = $latest_upstream_tag/" ./code/setup.cfg
+
 if [[ "$latest_upstream_tag" != "$our_tezos_tag" ]]; then
   # If corresponding branch doesn't exist yet, then the release PR
   # wasn't created
