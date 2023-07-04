@@ -15,6 +15,8 @@ import traceback
 import urllib.request
 import json
 from typing import List
+import logging
+
 
 from .wizard_structure import *
 
@@ -543,6 +545,7 @@ class Setup(Setup):
 
             print()
             print("Exiting the Tezos Setup Wizard.")
+            logging.info("Exiting the Tezos Setup Wizard.")
             sys.exit(0)
 
         print("Waiting for the node to bootstrap...")
@@ -678,24 +681,30 @@ def main():
     readline.set_completer_delims(" ")
 
     try:
+        setup_logger("tezos-setup.log")
+        logging.info("Starting the Tezos Setup Wizard.")
         setup = Setup()
         setup.run_setup()
-    except KeyboardInterrupt:
+    except KeyboardInterrupt as e:
         if "network" in setup.config:
             proc_call(
                 "sudo systemctl stop tezos-baking-"
                 + setup.config["network"]
                 + ".service"
             )
+        logging.info(f"Received keyboard interrupt.")
+        logging.info("Exiting the Tezos Setup Wizard.")
         print("Exiting the Tezos Setup Wizard.")
         sys.exit(1)
-    except EOFError:
+    except EOFError as e:
         if "network" in setup.config:
             proc_call(
                 "sudo systemctl stop tezos-baking-"
                 + setup.config["network"]
                 + ".service"
             )
+        logging.info(f"Reached EOF.")
+        logging.info("Exiting the Tezos Setup Wizard.")
         print("Exiting the Tezos Setup Wizard.")
         sys.exit(1)
     except Exception as e:
@@ -705,6 +714,8 @@ def main():
                 + setup.config["network"]
                 + ".service"
             )
+        logging.error(f"{str(e)}")
+        logging.info("Exiting the Tezos Setup Wizard.")
         print("Error in Tezos Setup Wizard, exiting.")
         logfile = "tezos_setup.log"
         with open(logfile, "a") as f:
