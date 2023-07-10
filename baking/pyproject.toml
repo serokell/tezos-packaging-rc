@@ -13,11 +13,8 @@ authors = [
 description = "Package that provides systemd services that orchestrate other services from Tezos packages"
 license = { text = "LicenseRef-MIT-OA" }
 requires-python = ">=3.8"
-dynamic = ["version"]
 readme = "README.md"
-
-[tool.setuptools.dynamic]
-version = {attr = "tezos_baking.__version__"}
+version = "v17.1"
 
 [tool.setuptools.packages.find]
 where= ["src"]
