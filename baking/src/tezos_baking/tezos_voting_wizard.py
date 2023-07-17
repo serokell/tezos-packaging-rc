@@ -10,6 +10,7 @@ Asks questions, validates answers, and executes the appropriate steps using the 
 
 import os, sys
 import readline
+import logging
 import re
 
 from .wizard_structure import *
@@ -468,16 +469,24 @@ def main():
     readline.set_completer_delims(" ")
 
     try:
+        setup_logger("tezos-vote.log")
+        logging.info("Starting the Tezos Voting Wizard.")
         setup = Setup()
         setup.run_voting()
     except KeyboardInterrupt:
         print("Exiting the Tezos Voting Wizard.")
+        logging.info(f"Received keyboard interrupt.")
+        logging.info("Exiting the Tezos Voting Wizard.")
         sys.exit(1)
     except EOFError:
         print("Exiting the Tezos Voting Wizard.")
+        logging.info(f"Reached EOF.")
+        logging.info("Exiting the Tezos Voting Wizard.")
         sys.exit(1)
     except Exception as e:
         print("Error in Tezos Voting Wizard, exiting.")
+        logging.error(f"{str(e)}")
+        logging.info("Exiting the Tezos Voting Wizard.")
         logfile = "tezos_vote.log"
         with open(logfile, "a") as f:
             f.write(str(e) + "\n")
