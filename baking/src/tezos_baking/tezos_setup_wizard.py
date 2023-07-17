@@ -239,6 +239,20 @@ def get_snapshot_mode_query(modes):
     )
 
 
+delete_node_data_options = {
+    "no": "Keep the existing data",
+    "yes": "Remove the data under the tezos node data directory",
+}
+
+delele_node_data_query = Step(
+    id="delete_node_data",
+    prompt="Delete this data and bootstrap the node again?",
+    help="It's possible to proceed with bootstrapping the node using\n"
+    "the existing blockchain data, instead of importing fresh snapshot.",
+    options=delete_node_data_options,
+    validator=Validator(enum_range_validator(delete_node_data_options)),
+)
+
 snapshot_file_query = Step(
     id="snapshot_file",
     prompt="Provide the path to the node snapshot file.",
@@ -340,7 +354,8 @@ class Setup(Setup):
         if diff:
             print("The Tezos node data directory already has some blockchain data:")
             print("\n".join(["- " + os.path.join(node_dir, path) for path in diff]))
-            if yes_or_no("Delete this data and bootstrap the node again? <y/N> ", "no"):
+            self.query_step(delele_node_data_query)
+            if self.config["delete_node_data"] == "yes":
                 # We first stop the node service, because it's possible that it
                 # will re-create some of the files while we go on with the wizard
                 print("Stopping node service")
