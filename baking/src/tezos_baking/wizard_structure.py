@@ -582,6 +582,21 @@ def get_ledger_derivation_query(ledgers_derivations, node_endpoint, client_dir):
     )
 
 
+replace_key_options = {
+    "no": "Keep the existing key",
+    "yes": "Import a new key and replace the existing one",
+}
+
+replace_key_query = Step(
+    id="replace_key",
+    prompt="Would you like to import a new key and replace this one?",
+    help="It's possible to proceed with the existing baker key, instead of\n"
+    "importing new one.",
+    options=replace_key_options,
+    validator=Validator(enum_range_validator(replace_key_options)),
+)
+
+
 def print_and_log(s, log=logging.info):
     print(s)
     log(s)
@@ -705,9 +720,8 @@ class Setup:
             )
             print("Its current address is", address)
 
-            return yes_or_no(
-                "Would you like to import a new key and replace this one? <y/N> ", "no"
-            )
+            self.query_step(replace_key_query)
+            return self.config["replace_key"] == "yes"
         else:
             return True
 
