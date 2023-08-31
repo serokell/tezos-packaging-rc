@@ -429,13 +429,24 @@ class Setup(Setup):
             )
             print()
         except ValueError:
-            print(
-                color(
-                    f"\nCouldn't collect snapshot metadata from {json_url} due to format mismatch.",
-                    color_red,
+            # if user supplied an url without `tezos-snapshots.json` in the end and it failed,
+            # we also try that url with the `tezos-snapshots.json` added
+            # it's placed only for `ValueError`, because `URLError` could happen due to
+            # local issues, not because something is wrong with the url itself
+            # also, at this point we already validated, that provided url is reachable
+            if os.path.basename(self.config["provider_url"]) != "tezos-snapshots.json":
+                self.config["provider_url"] = os.path.join(
+                    self.config["provider_url"], "tezos-snapshots.json"
                 )
-            )
-            print()
+                self.get_snapshot_link()
+            else:
+                print(
+                    color(
+                        f"\nCouldn't collect snapshot metadata from {json_url} due to format mismatch.",
+                        color_red,
+                    )
+                )
+                print()
         except Exception as e:
             print(f"\nUnexpected error handling snapshot metadata:\n{e}\n")
 
