@@ -58,7 +58,7 @@ toggle_vote_modes = {
 
 providers = {
     "xtz-shots.io": "https://xtz-shots.io/tezos-snapshots.json",
-    "marigold.dev": "https://snapshots.tezos.marigold.dev/api",
+    "marigold.dev": "https://snapshots.tezos.marigold.dev/api/tezos-snapshots.json",
 }
 
 
@@ -225,26 +225,24 @@ liquidity_toggle_vote_query = Step(
     validator=Validator(enum_range_validator(toggle_vote_modes)),
 )
 
-# We define this step as a function to better tailor snapshot options to the chosen history mode
-def get_snapshot_mode_query(modes):
-    return Step(
-        id="snapshot",
-        prompt="The Tezos node can take a significant time to bootstrap from scratch.\n"
-        "Bootstrapping from a snapshot is suggested instead.\n"
-        "How would you like to proceed?",
-        help="A fully-synced local Tezos node is required for running a baking instance.\n"
-        "By default, the Tezos node service will start to bootstrap from scratch,\n"
-        "which will take a significant amount of time.\nIn order to avoid this, we suggest "
-        "bootstrapping from a snapshot instead.\n\n"
-        "Snapshots can be downloaded from the following websites:\n"
-        "Tezos Giganode Snapshots - https://snapshots-tezos.giganode.io/ \n"
-        "XTZ-Shots - https://xtz-shots.io/ \n\n"
-        "We recommend to use rolling snapshots. This is the smallest and the fastest mode\n"
-        "that is sufficient for baking. You can read more about other Tezos node history modes here:\n"
-        "https://tezos.gitlab.io/user/history_modes.html#history-modes",
-        options=modes,
-        validator=Validator(enum_range_validator(modes)),
-    )
+snapshot_mode_query = Step(
+    id="snapshot",
+    prompt="The Tezos node can take a significant time to bootstrap from scratch.\n"
+    "Bootstrapping from a snapshot is suggested instead.\n"
+    "How would you like to proceed?",
+    help="A fully-synced local Tezos node is required for running a baking instance.\n"
+    "By default, the Tezos node service will start to bootstrap from scratch,\n"
+    "which will take a significant amount of time.\nIn order to avoid this, we suggest "
+    "bootstrapping from a snapshot instead.\n\n"
+    "Snapshots can be downloaded from the following websites:\n"
+    "Tezos Giganode Snapshots - https://snapshots-tezos.giganode.io/ \n"
+    "XTZ-Shots - https://xtz-shots.io/ \n\n"
+    "We recommend to use rolling snapshots. This is the smallest and the fastest mode\n"
+    "that is sufficient for baking. You can read more about other Tezos node history modes here:\n"
+    "https://tezos.gitlab.io/user/history_modes.html#history-modes",
+    options=snapshot_import_modes,
+    validator=Validator(enum_range_validator(modes)),
+)
 
 
 snapshot_file_query = Step(
@@ -390,7 +388,7 @@ class Setup(Setup):
             return False
         return True
 
-    # Check https://xtz-shots.io/tezos-snapshots.json and collect the most recent snapshot
+    # Check the provider url and collect the most recent snapshot
     # that is suited for the chosen history mode and network
     def get_snapshot_link(self):
         self.config["snapshot_url"] = None
@@ -425,7 +423,7 @@ class Setup(Setup):
         except urllib.error.URLError:
             print(
                 color(
-                    f"Couldn't collect snapshot metadata from {json_url} due to networking issues.",
+                    f"\nCouldn't collect snapshot metadata from {json_url} due to networking issues.",
                     color_red,
                 )
             )
@@ -433,13 +431,13 @@ class Setup(Setup):
         except ValueError:
             print(
                 color(
-                    f"Couldn't collect snapshot metadata from {json_url} due to format mismatch.",
+                    f"\nCouldn't collect snapshot metadata from {json_url} due to format mismatch.",
                     color_red,
                 )
             )
             print()
         except Exception as e:
-            print(f"Unexpected error handling snapshot metadata:\n{e}\n")
+            print(f"\nUnexpected error handling snapshot metadata:\n{e}\n")
 
     # Importing the snapshot for Node bootstrapping
     def import_snapshot(self):
@@ -459,7 +457,7 @@ class Setup(Setup):
 
         while not valid_choice:
 
-            self.query_step(get_snapshot_mode_query(snapshot_import_modes))
+            self.query_step(snapshot_mode_query)
 
             snapshot_file = TMP_SNAPSHOT_LOCATION
             snapshot_block_hash = None
