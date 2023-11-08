@@ -2,9 +2,11 @@ import os
 import sys
 import json
 
-binaries_json_path = "/tezos-packiging/docker/test/binaries.json"
+binaries_json_path_suffix = "/tests/binaries.json"
+binaries_list_path_suffix = "/tmp/binaries.txt"
 
 def update_binaries(binaries, field):
+    binaries_json_path = os.environ["PWD"] + binaries_json_path_suffix
     with open(binaries_json_path, 'r') as file:
         data = json.load(file)
 
@@ -14,15 +16,12 @@ def update_binaries(binaries, field):
 
 
 def main():
-    if len(sys.argv) < 3:
-        print("You need to provide tag and path to list of binaries argument")
-        return
-    tag = sys.argv[1]
-
+    tag = os.environ["BUILDKITE_TAG"]
     binaries = []
-    with open(sys.argv[2], 'r') as f:
+    binaries_list_path = os.environ["PWD"] + binaries_list_path_suffix
+    with open(binaries_list_path, 'r') as f:
         binaries = [l.strip() for l in f.readlines()]
-
+    print(binaries)
     if not binaries:
         raise Exception('Exception, while reading binaries list: binaries list is empty')
 
