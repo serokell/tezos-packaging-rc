@@ -2,11 +2,10 @@
 # SPDX-License-Identifier: LicenseRef-MIT-OA
 
 import os
-import sys
 import json
 
-binaries_json_path_suffix = "/tests/binaries.json"
-binaries_list_path_suffix = "/tmp/binaries.txt"
+binaries_json_path_suffix = "tests/binaries.json"
+binaries_list_path_suffix = "tmp/binaries.txt"
 
 
 def update_binaries(binaries, field):
@@ -28,6 +27,7 @@ def main():
     with open(binaries_list_path, "r") as f:
         binaries = [l.strip().replace("octez", "tezos") for l in f.readlines()]
 
+    print(binaries)
     if not binaries:
         raise Exception(
             "Exception, while reading binaries list: binaries list is empty"
