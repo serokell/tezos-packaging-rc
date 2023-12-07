@@ -21,19 +21,8 @@ steps:
    agents:
      queue: "x86_64-rosetta-darwin"
    commands:
+   - nix develpo .#autorelease-macos -c brew install cmake
    - nix develop .#autorelease-macos -c ./scripts/build-all-bottles.sh "big_sur"
-   artifact_paths:
-     - '*.bottle.*'
-   retry:
-     automatic:
-       limit: 1
-
- - label: Build Big Sur arm64 bottles
-   key: build-bottles-big-sur-arm64
-   agents:
-     queue: "arm64-darwin"
-   commands:
-   - nix develop .#autorelease-macos -c ./scripts/build-all-bottles.sh "arm64_big_sur"
    artifact_paths:
      - '*.bottle.*'
    retry:
@@ -45,7 +34,6 @@ steps:
  # in practice it's always the case in this repo.
  - label: Add Big Sur bottle hashes to formulae
    depends_on:
-   - "build-bottles-big-sur-arm64"
    - "build-bottles-big-sur-x86_64"
    commands:
    - mkdir -p "Big Sur"
