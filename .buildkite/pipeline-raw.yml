@@ -21,7 +21,7 @@ steps:
    agents:
      queue: "x86_64-rosetta-darwin"
    commands:
-   - nix develpo .#autorelease-macos -c brew install cmake
+   - nix develop .#autorelease-macos -c brew install cmake
    - nix develop .#autorelease-macos -c ./scripts/build-all-bottles.sh "big_sur"
    artifact_paths:
      - '*.bottle.*'
