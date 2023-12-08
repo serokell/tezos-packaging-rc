@@ -16,26 +16,11 @@ steps:
  # To avoid race-conditions for the gpg key between jobs which sometimes leads to weird errors
  - wait
 
- - label: Build Big Sur x86_64 bottles
-   key: build-bottles-big-sur-x86_64
-   agents:
-     queue: "x86_64-rosetta-darwin"
-   commands:
-   - nix develop .#autorelease-macos -c brew install cmake
-   - nix develop .#autorelease-macos -c ./scripts/build-all-bottles.sh "big_sur"
-   artifact_paths:
-     - '*.bottle.*'
-   retry:
-     automatic:
-       limit: 1
-
  # We use the tag that triggered the pipeline here.
  # However, this requires that the tag and the release name are the same, which
  # in practice it's always the case in this repo.
  - label: Add Big Sur bottle hashes to formulae
-   depends_on:
-   - "build-bottles-big-sur-x86_64"
    commands:
    - mkdir -p "Big Sur"
-   - nix develop .#buildkite -c gh release download "v19.0-rc1" -D "Big Sur/" -p "*big_sur.bottle.tar.gz"
-   - nix develop .#autorelease -c ./scripts/sync-bottle-hashes.sh "v19.0-rc1" "Big Sur"
+   - nix develop .#buildkite -c gh release download "v19.0-rc1-1" -D "Big Sur/" -p "*big_sur.bottle.tar.gz"
+   - nix develop .#autorelease -c ./scripts/sync-bottle-hashes.sh "v19.0-rc1-1" "Big Sur"
