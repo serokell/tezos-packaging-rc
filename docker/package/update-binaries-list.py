@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2023 Oxhead Alpha
 # SPDX-License-Identifier: LicenseRef-MIT-OA
 
@@ -22,11 +23,13 @@ def update_binaries(binaries, field):
 def main():
     tag = os.environ["BUILDKITE_TAG"]
     binaries = []
-    binaries = list(all_packages.keys())
+    with open(f"{os.path.dirname(__file__)}/../octez-executables", "r") as f:
+        binaries = [l.strip() for l in f.readlines()]
     if not binaries:
         raise Exception(
             "Exception, while reading binaries list: binaries list is empty"
         )
+    binaries.append()
 
     field = "candidates" if "rc" in tag else "released"
 
