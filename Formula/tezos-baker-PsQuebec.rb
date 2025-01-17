@@ -26,6 +26,7 @@ class TezosBakerPsquebec < Formula
 
   bottle do
     root_url "https://github.com/serokell/tezos-packaging/releases/download/#{TezosBakerPsquebec.version}/"
+    sha256 cellar: :any, ventura: "031e6a3611ac87da435eec6c37ffea0954323aaf201267a0ea7ea18a84231bfa"
   end
 
   def make_deps
