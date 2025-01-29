@@ -30,6 +30,8 @@ class TezosCodec < Formula
     sha256 cellar: :any, arm64_ventura: "0ba4766e36c070a975fdb43b5f4a9f8d88d5b64ebfcafcd1c6775a895d8d2bd3"
     sha256 cellar: :any, ventura: "502ac5e52c805301552a8b37913d9cb6a4b23a809bcd37b5ccdbca2e5a75a15a"
     sha256 cellar: :any, arm64_ventura: "0ba4766e36c070a975fdb43b5f4a9f8d88d5b64ebfcafcd1c6775a895d8d2bd3"
+    sha256 cellar: :any, ventura: "502ac5e52c805301552a8b37913d9cb6a4b23a809bcd37b5ccdbca2e5a75a15a"
+    sha256 cellar: :any, arm64_ventura: "0ba4766e36c070a975fdb43b5f4a9f8d88d5b64ebfcafcd1c6775a895d8d2bd3"
   end
 
   def make_deps

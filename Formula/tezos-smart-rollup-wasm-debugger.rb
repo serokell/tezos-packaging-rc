@@ -31,6 +31,8 @@ class TezosSmartRollupWasmDebugger < Formula
     sha256 cellar: :any, arm64_ventura: "5e23e70f12600c9aefe509d50f921c993f6206feafacdeae5bdf3c544b933dc2"
     sha256 cellar: :any, ventura: "be8f52f5bdecd68a1163deaa1a0325cd2ef7d46314c58e049dab776c53ebe448"
     sha256 cellar: :any, arm64_ventura: "5e23e70f12600c9aefe509d50f921c993f6206feafacdeae5bdf3c544b933dc2"
+    sha256 cellar: :any, ventura: "be8f52f5bdecd68a1163deaa1a0325cd2ef7d46314c58e049dab776c53ebe448"
+    sha256 cellar: :any, arm64_ventura: "5e23e70f12600c9aefe509d50f921c993f6206feafacdeae5bdf3c544b933dc2"
   end
 
   def make_deps
