@@ -19,40 +19,41 @@ steps:
  - label: Build ubuntu source packages
    key: build-ubuntu-source-packages
    commands:
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-node -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-node -d noble
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-rollup-wasm-debugger -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-codec -d focal
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dac-node -d focal
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-baker-PsParisC -d noble
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dac-client -d focal
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-client -d noble
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dal-node -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dac-client -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-client -d focal
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-admin-client -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-signer -d noble
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-smart-rollup-node -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-client -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-signer -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dac-node -d noble
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dal-node -d noble
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-baker-PsParisC -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-accuser-PsQuebec -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dac-node -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-smart-rollup-wasm-debugger -d focal
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-baker-PsQuebec -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-accuser-PsParisC -d focal
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-accuser-PsParisC -d noble
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-smart-rollup-node -d focal
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-accuser-PsQuebec -d focal
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-accuser-PsParisC -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-admin-client -d focal
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-admin-client -d noble
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-smart-rollup-node -d noble
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-codec -d jammy
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dac-client -d noble
-     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dal-node -d focal
+     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source -p tezos-accuser-PsParisC tezos-codec tezos-signer --launchpad-sources
+     - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source -p tezos-accuser-PsQuebec tezos-admin-client
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-node -d noble
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-rollup-wasm-debugger -d jammy
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-codec -d focal
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dac-node -d focal
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-baker-PsParisC -d noble
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dac-client -d focal
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-client -d noble
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dal-node -d jammy
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dac-client -d jammy
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-client -d focal
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-admin-client -d jammy
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-signer -d noble
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-smart-rollup-node -d jammy
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-client -d jammy
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-signer -d jammy
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dac-node -d noble
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dal-node -d noble
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-baker-PsParisC -d jammy
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-accuser-PsQuebec -d jammy
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dac-node -d jammy
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-smart-rollup-wasm-debugger -d focal
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-baker-PsQuebec -d jammy
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-accuser-PsParisC -d focal
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-accuser-PsParisC -d noble
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-smart-rollup-node -d focal
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-accuser-PsQuebec -d focal
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-accuser-PsParisC -d jammy
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-admin-client -d focal
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-admin-client -d noble
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-smart-rollup-node -d noble
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-codec -d jammy
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dac-client -d noble
+     # - nix develop .#docker-tezos-packages -c ./docker/build/ubuntu/build.py --type source --launchpad-sources -p tezos-dal-node -d focal
    artifact_paths:
      - ./out/*
 
